@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Shared Molecular Structure</title>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body>
+    <main class="viewer-shell">
+      <header class="viewer-header">
+        <div><p class="eyebrow">Research Toolkit</p><h1 id="structureTitle">Shared molecular structure</h1></div>
+        <span id="structureSummary" class="summary"></span>
+      </header>
+      <section class="viewer-stage" aria-label="Molecular structure viewer">
+        <div id="viewer" class="viewer"><p>Loading shared structure...</p></div>
+        <div id="selectionOverlay" class="selection-overlay" hidden></div>
+      </section>
+      <nav class="viewer-controls" aria-label="Viewer controls">
+        <label class="style-control"><span>Style</span><select id="styleSelect"><option value="ball-stick">Ball &amp; stick</option><option value="stick">Stick</option><option value="spacefill">Spacefill</option></select></label>
+        <button id="labelsButton" type="button" aria-pressed="false">Labels</button>
+        <button id="measureButton" type="button" aria-pressed="true">Measure</button>
+        <button id="clearButton" type="button" class="secondary">Clear</button>
+        <button id="resetButton" type="button" class="secondary">Reset view</button>
+        <button id="showXyzButton" type="button" class="secondary">Show XYZ</button>
+        <button id="copyXyzButton" type="button">Copy XYZ</button>
+      </nav>
+      <section class="measurement-panel" aria-live="polite">
+        <strong id="selectedAtoms">Selected: none</strong>
+        <span id="measurementResult">Tap atoms in order to measure.</span>
+      </section>
+      <details id="xyzPanel" class="xyz-panel"><summary>XYZ structure</summary><textarea id="xyzText" readonly spellcheck="false"></textarea></details>
+      <p id="errorMessage" class="error-message" hidden></p>
+    </main>
+    <script src="vendor/3Dmol-2.5.3.min.js"></script>
+    <script src="share-codec.js"></script>
+    <script src="viewer-math.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
