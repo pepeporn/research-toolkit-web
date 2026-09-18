@@ -9,21 +9,29 @@
   <body>
     <main class="viewer-shell">
       <header class="viewer-header">
-        <div><p class="eyebrow">Research Toolkit</p><h1 id="structureTitle">Shared molecular structure</h1></div>
+        <div class="title-block">
+          <p class="eyebrow">Research Toolkit · Structure Viewer</p>
+          <h1 id="structureTitle">Shared molecular structure</h1>
+        </div>
         <span id="structureSummary" class="summary"></span>
       </header>
-      <section class="viewer-stage" aria-label="Molecular structure viewer">
+      <section id="viewerStage" class="viewer-stage" aria-label="Molecular structure viewer">
         <div id="viewer" class="viewer"><p>Loading shared structure...</p></div>
         <div id="selectionOverlay" class="selection-overlay" hidden></div>
+        <span class="resize-affordance" aria-hidden="true"></span>
       </section>
-      <nav class="viewer-controls" aria-label="Viewer controls">
-        <label class="style-control"><span>Style</span><select id="styleSelect"><option value="ball-stick">Ball &amp; stick</option><option value="stick">Stick</option><option value="spacefill">Spacefill</option></select></label>
-        <button id="labelsButton" type="button" aria-pressed="false">Labels</button>
-        <button id="measureButton" type="button" aria-pressed="true">Measure</button>
-        <button id="clearButton" type="button" class="secondary">Clear</button>
-        <button id="resetButton" type="button" class="secondary">Reset view</button>
-        <button id="showXyzButton" type="button" class="secondary">Show XYZ</button>
-        <button id="copyXyzButton" type="button">Copy XYZ</button>
+      <nav class="viewer-controls viewer-toolbar" aria-label="Viewer controls">
+        <label class="style-control"><span>Display</span><select id="styleSelect"><option value="ball-stick">Ball &amp; stick</option><option value="stick">Stick</option><option value="spacefill">Spacefill</option></select></label>
+        <div class="control-group" aria-label="Viewer modes">
+          <button id="labelsButton" type="button" class="tonal-action" aria-pressed="false">Labels</button>
+          <button id="measureButton" type="button" class="tonal-action" aria-pressed="true">Measure</button>
+        </div>
+        <div class="control-group viewer-commands" aria-label="Viewer actions">
+          <button id="clearButton" type="button" class="outlined-action">Clear</button>
+          <button id="resetButton" type="button" class="outlined-action">Reset view</button>
+          <button id="showXyzButton" type="button" class="outlined-action">Show XYZ</button>
+          <button id="copyXyzButton" type="button" class="primary-action">Copy XYZ</button>
+        </div>
       </nav>
       <section class="measurement-panel" aria-live="polite">
         <strong id="selectedAtoms">Selected: none</strong>

@@ -3,7 +3,7 @@
 
   const byId = (id) => document.getElementById(id);
   const els = {
-    title: byId("structureTitle"), summary: byId("structureSummary"), viewer: byId("viewer"), overlay: byId("selectionOverlay"),
+    title: byId("structureTitle"), summary: byId("structureSummary"), stage: byId("viewerStage"), viewer: byId("viewer"), overlay: byId("selectionOverlay"),
     style: byId("styleSelect"), labels: byId("labelsButton"), measure: byId("measureButton"), clear: byId("clearButton"),
     reset: byId("resetButton"), showXyz: byId("showXyzButton"), copyXyz: byId("copyXyzButton"), selected: byId("selectedAtoms"),
     result: byId("measurementResult"), xyzPanel: byId("xyzPanel"), xyz: byId("xyzText"), error: byId("errorMessage"),
@@ -14,7 +14,21 @@
   let selected = [];
   let labelsVisible = false;
   let measureEnabled = true;
+  let resizeFrame = 0;
+  let resizeObserver = null;
   const measurement = window.StructureViewerMath;
+
+  function resizeViewer() {
+    resizeFrame = 0;
+    if (!viewer) return;
+    viewer.resize();
+    viewer.render();
+  }
+
+  function scheduleViewerResize() {
+    if (resizeFrame) cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(resizeViewer);
+  }
 
   function atomLabel(atom) { return `${atom.elem || atom.element || "X"}${Number(atom.index) + 1}`; }
   function styleSpec() {
@@ -87,6 +101,7 @@
       renderStyles();
       viewer.zoomTo();
       viewer.render();
+      scheduleViewerResize();
     } catch (error) {
       els.viewer.innerHTML = "";
       els.error.hidden = false;
@@ -102,7 +117,11 @@
   els.reset.addEventListener("click", () => { viewer?.zoomTo(); viewer?.render(); });
   els.showXyz.addEventListener("click", () => { els.xyzPanel.open = !els.xyzPanel.open; if (els.xyzPanel.open) els.xyzPanel.scrollIntoView({ behavior: "smooth", block: "nearest" }); });
   els.copyXyz.addEventListener("click", async () => { els.result.textContent = await copyText(payload.structure.xyz) ? "XYZ copied." : "Copy failed. Open XYZ and copy it manually."; });
-  window.addEventListener("resize", () => viewer?.resize());
+  if (typeof ResizeObserver === "function") {
+    resizeObserver = new ResizeObserver(scheduleViewerResize);
+    resizeObserver.observe(els.stage);
+  }
+  window.addEventListener("resize", scheduleViewerResize);
   initialize();
 
 })();

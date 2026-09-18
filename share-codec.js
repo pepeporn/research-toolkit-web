@@ -8,6 +8,7 @@
   const SCHEMA = "structure-share/1";
   const WARNING_LENGTH = 8000;
   const STORAGE_KEY = "researchToolkit.structureShare.viewerBaseUrl.v1";
+  const PUBLIC_VIEWER_URL = "https://pepeporn.github.io/research-toolkit-web/";
 
   function bytesToBase64Url(bytes) {
     let binary = "";
@@ -114,11 +115,11 @@
   function defaultViewerUrl() {
     try {
       const saved = root?.localStorage?.getItem(STORAGE_KEY);
-      if (saved) return saved;
+      if (saved) return new URL(saved, root?.location?.href || PUBLIC_VIEWER_URL).href.split("#")[0];
     } catch (_error) {
       // Storage is optional.
     }
-    return new URL("../../web/structure-viewer/", root.location.href).href;
+    return PUBLIC_VIEWER_URL;
   }
 
   function describeUrl(url) {
@@ -194,5 +195,5 @@
     return { payload, dialog };
   }
 
-  return { SCHEMA, WARNING_LENGTH, createPayload, validatePayload, encodePayload, decodePayload, payloadFromHash, buildUrl, defaultViewerUrl, describeUrl, openDialog };
+  return { SCHEMA, WARNING_LENGTH, PUBLIC_VIEWER_URL, createPayload, validatePayload, encodePayload, decodePayload, payloadFromHash, buildUrl, defaultViewerUrl, describeUrl, openDialog };
 });
